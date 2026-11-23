@@ -1,0 +1,46 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Django secrets
+.env
+.env.*
+!.env.example
+
+# Local databases
+db.sqlite3
+db_*.sqlite3
+*.sqlite3
+
+# User uploads (resumes, profile photos)
+media/
+
+# Backup and restore files
+current_backup.json
+data_restore.json
+full_local_backup.json
+restore_ordered.json
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/
+
+# Generated files
+staticfiles/
+
+
+jobs_fixture.json
+
+
+jobs_fixture.json
+applications/api_views_backup.py
