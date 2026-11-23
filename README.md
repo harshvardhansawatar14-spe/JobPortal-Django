@@ -140,8 +140,8 @@ The project uses Django migrations for database schema management.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Shaikh-Nisar/job-portal-django-.git
-cd job-portal-django-
+git clone https://github.com/harshvardhansawatar14-spe/JobPortal-Django.git
+cd JobPortal-Django
 ```
 
 ### 2. Create and activate a virtual environment
@@ -299,10 +299,8 @@ Planned production steps include:
 
 **Sawatar Harshvardhan**
 
-GitHub:
-
-https://github.com/Shaikh-Nisar
+GitHub: https://github.com/harshvardhansawatar14-spe
 
 ## Repository
 
-https://github.com/Shaikh-Nisar/job-portal-django-
+https://github.com/harshvardhansawatar14-spe/JobPortal-Django
