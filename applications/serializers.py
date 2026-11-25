@@ -8,7 +8,6 @@ class ApplicationSerializer(serializers.ModelSerializer):
         source="candidate.username",
         read_only=True
     )
-
     job_title = serializers.CharField(
         source="job.title",
         read_only=True
