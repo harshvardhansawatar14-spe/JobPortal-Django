@@ -132,14 +132,24 @@ def apply_job(request, job_id):
             "cover_letter": cover_letter,
         })
 
-    # Save application
+    # Save application and initial history together
     try:
-        Application.objects.create(
-            job=job,
-            candidate=request.user,
-            cover_letter=cover_letter,
-            resume=resume,
-        )
+        with transaction.atomic():
+
+            application = Application.objects.create(
+                job=job,
+                candidate=request.user,
+                cover_letter=cover_letter,
+                resume=resume,
+            )
+
+            ApplicationStatusHistory.objects.create(
+                application=application,
+                old_status="",
+                new_status="applied",
+                changed_by=request.user,
+                remarks="Application submitted"
+            )
 
     except IntegrityError:
         messages.warning(
@@ -262,7 +272,6 @@ def update_application_status(request, application_id):
 
     old_status = application.status
 
-    # Do not create history for unchanged status
     if old_status == status_value:
         messages.info(
             request,
@@ -358,4 +367,44 @@ def update_application_status(request, application_id):
     return redirect(
         "job_applicants",
         job_id=application.job.id
+    )
+
+
+# =========================================================
+# CANDIDATE APPLICATION STATUS HISTORY
+# =========================================================
+
+@login_required
+def application_status_history(request, application_id):
+
+    if request.user.role != "candidate":
+        messages.error(
+            request,
+            "Only candidates can view application history."
+        )
+        return redirect("candidate_dashboard")
+
+    application = get_object_or_404(
+        Application.objects.select_related(
+            "job",
+            "candidate"
+        ),
+        id=application_id,
+        candidate=request.user
+    )
+
+    history = (
+        ApplicationStatusHistory.objects
+        .filter(application=application)
+        .select_related("changed_by")
+        .order_by("-changed_at")
+    )
+
+    return render(
+        request,
+        "applications/application_status_history.html",
+        {
+            "application": application,
+            "history": history,
+        }
     )
