@@ -1,793 +1,279 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Application Status History | Job Portal</title>
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
             font-family: "Inter", "Segoe UI", Arial, sans-serif;
             background:
-                radial-gradient(circle at 5% 10%, rgba(37, 99, 235, 0.10), transparent 28%),
-                radial-gradient(circle at 95% 20%, rgba(124, 58, 237, 0.10), transparent 28%),
-                linear-gradient(135deg, #f8fafc, #eef2ff);
+                radial-gradient(circle at 5% 10%, rgba(37,99,235,.10), transparent 28%),
+                radial-gradient(circle at 95% 20%, rgba(124,58,237,.10), transparent 28%),
+                linear-gradient(135deg,#f8fafc,#eef2ff);
             min-height: 100vh;
             color: #172033;
         }
 
-        /* NAVBAR */
-
         .topbar {
-            background: linear-gradient(135deg, #0f172a, #172554, #1e3a8a);
+            background: linear-gradient(135deg,#0f172a,#172554,#1e3a8a);
             padding: 14px 0;
-            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.20);
+            box-shadow: 0 8px 30px rgba(15,23,42,.2);
         }
 
         .brand {
-            color: white !important;
+            color: white;
             text-decoration: none;
             font-size: 22px;
             font-weight: 800;
-            letter-spacing: 0.3px;
         }
 
-        .brand i {
-            color: #60a5fa;
-            margin-right: 8px;
-        }
-
-        .nav-btn {
-            border-radius: 10px;
-            padding: 8px 15px;
-            font-size: 13px;
-            font-weight: 700;
-            transition: 0.3s;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        /* PAGE */
+        .brand i { color: #60a5fa; margin-right: 8px; }
 
         .page-wrapper {
-            max-width: 1100px;
+            max-width: 950px;
             margin: 45px auto;
             padding: 0 20px 50px;
         }
 
-        .page-header {
-            margin-bottom: 28px;
-        }
-
-        .page-header h1 {
-            font-size: 32px;
-            font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 7px;
-        }
-
-        .page-header p {
-            color: #64748b;
-            margin: 0;
-            font-size: 15px;
-        }
-
-        .header-icon {
-            width: 48px;
-            height: 48px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #2563eb, #4f46e5);
-            color: white;
-            border-radius: 14px;
-            margin-right: 12px;
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
-        }
-
-        /* CARDS */
-
-        .history-card,
-        .job-card {
-            border: 1px solid rgba(255,255,255,0.85);
+        .history-card {
+            background: rgba(255,255,255,.92);
             border-radius: 20px;
-            background: rgba(255,255,255,0.90);
-            backdrop-filter: blur(14px);
-            box-shadow: 0 12px 35px rgba(15,23,42,0.08);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .job-card::before,
-        .history-card::before {
-            content: "";
-            position: absolute;
-            height: 4px;
-            left: 0;
-            right: 0;
-            top: 0;
-            background: linear-gradient(90deg, #2563eb, #7c3aed);
-        }
-
-        .job-icon {
-            width: 52px;
-            height: 52px;
-            min-width: 52px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #eff6ff, #eef2ff);
-            color: #2563eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 23px;
+            padding: 28px;
+            box-shadow: 0 12px 35px rgba(15,23,42,.08);
+            margin-bottom: 25px;
         }
 
         .job-title {
-            color: #0f172a;
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 800;
-            margin: 0;
+            color: #0f172a;
         }
 
-        .company-name {
-            color: #64748b;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-
-        /* STATUS BADGES */
+        .company-name { color: #64748b; }
 
         .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 8px 13px;
-            border-radius: 999px;
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 30px;
             font-size: 12px;
             font-weight: 800;
         }
 
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: currentColor;
-        }
-
-        .status-applied {
-            background: #eff6ff;
-            color: #2563eb;
-        }
-
-        .status-shortlisted {
-            background: #fff7ed;
-            color: #c2410c;
-        }
-
-        .status-selected {
-            background: #ecfdf5;
-            color: #047857;
-        }
-
-        .status-rejected {
-            background: #fef2f2;
-            color: #dc2626;
-        }
-
-        .current-status {
-            background: #f8fafc;
-            border: 1px solid #edf1f5;
-            border-radius: 14px;
-            padding: 17px;
-        }
-
-        .section-title {
-            color: #0f172a;
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
-
-        /* TIMELINE */
+        .status-applied { background: #eff6ff; color: #2563eb; }
+        .status-shortlisted { background: #fff7ed; color: #c2410c; }
+        .status-selected { background: #ecfdf5; color: #047857; }
+        .status-rejected { background: #fef2f2; color: #dc2626; }
 
         .timeline {
             position: relative;
-            padding-left: 35px;
+            padding-left: 30px;
         }
 
         .timeline::before {
             content: "";
             position: absolute;
-            left: 10px;
-            top: 10px;
-            bottom: 15px;
-            width: 2px;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 3px;
             background: #dbeafe;
+            border-radius: 5px;
         }
 
         .timeline-item {
             position: relative;
-            padding-bottom: 28px;
-        }
-
-        .timeline-item:last-child {
-            padding-bottom: 0;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: -33px;
-            top: 4px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            border: 4px solid #dbeafe;
-            box-shadow: 0 0 0 4px white;
-        }
-
-        .timeline-content {
+            margin-bottom: 25px;
+            padding: 20px;
             background: #f8fafc;
             border: 1px solid #edf1f5;
             border-radius: 14px;
-            padding: 18px;
-            transition: 0.3s;
         }
 
-        .timeline-content:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(15,23,42,0.07);
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -28px;
+            top: 23px;
+            width: 14px;
+            height: 14px;
+            background: #2563eb;
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px #bfdbfe;
         }
 
         .timeline-date {
             color: #64748b;
             font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 12px;
+            font-weight: 600;
         }
 
-        .timeline-date i {
-            color: #2563eb;
-            margin-right: 5px;
-        }
-
-        .status-change {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 14px;
-        }
-
-        .status-label {
-            font-size: 11px;
-            color: #94a3b8;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        .change-arrow {
-            color: #64748b;
-            font-size: 18px;
-        }
-
-        .remarks-box {
+        .remarks {
             background: white;
-            border-left: 3px solid #2563eb;
-            padding: 12px 14px;
-            border-radius: 0 10px 10px 0;
+            border-left: 3px solid #60a5fa;
+            padding: 12px;
+            border-radius: 5px;
             margin-top: 12px;
-        }
-
-        .remarks-title {
-            color: #334155;
-            font-size: 12px;
-            font-weight: 800;
-            margin-bottom: 5px;
-        }
-
-        .remarks-text {
-            color: #64748b;
-            font-size: 13px;
-            line-height: 1.6;
-            margin: 0;
-            white-space: pre-line;
-        }
-
-        .changed-by {
-            color: #64748b;
-            font-size: 12px;
-            margin-top: 12px;
-        }
-
-        .empty-box {
-            background: rgba(255,255,255,0.90);
-            border-radius: 18px;
-            padding: 55px 25px;
-            text-align: center;
-            box-shadow: 0 12px 30px rgba(15,23,42,0.07);
-        }
-
-        .empty-icon {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            margin: 0 auto 18px;
-            background: linear-gradient(135deg, #eff6ff, #eef2ff);
-            color: #2563eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-        }
-
-        .empty-box h4 {
-            font-weight: 800;
-            color: #0f172a;
-        }
-
-        .empty-box p {
-            color: #64748b;
+            color: #475569;
         }
 
         .action-btn {
             border-radius: 10px;
-            padding: 9px 15px;
-            font-size: 12px;
+            padding: 9px 16px;
             font-weight: 700;
-            transition: 0.25s;
         }
 
-        .action-btn:hover {
-            transform: translateY(-2px);
+        .empty-box {
+            text-align: center;
+            padding: 35px;
+            color: #64748b;
         }
 
-        .fade-up {
-            animation: fadeUp 0.55s ease both;
+        @media(max-width:576px) {
+            .page-wrapper { margin-top: 25px; padding: 0 14px 35px; }
+            .history-card { padding: 20px; }
         }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(18px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 767px) {
-
-            .page-wrapper {
-                margin-top: 30px;
-                padding: 0 15px 35px;
-            }
-
-            .page-header h1 {
-                font-size: 25px;
-            }
-
-            .job-title {
-                font-size: 18px;
-            }
-
-            .topbar .container-fluid {
-                padding-left: 15px !important;
-                padding-right: 15px !important;
-            }
-        }
-
     </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-
 <nav class="navbar navbar-dark topbar">
-
     <div class="container-fluid px-4">
-
-        <a
-            class="brand"
-            href="{% url 'candidate_dashboard' %}"
-        >
-            <i class="bi bi-briefcase-fill"></i>
-            Job Portal
+        <a class="brand" href="{% url 'candidate_dashboard' %}">
+            <i class="bi bi-briefcase-fill"></i> Job Portal
         </a>
-
-        <div>
-
-            <a
-                href="{% url 'my_applications' %}"
-                class="btn btn-primary nav-btn me-2"
-            >
-                <i class="bi bi-files me-1"></i>
-                My Applications
-            </a>
-
-            <a
-                href="{% url 'logout' %}"
-                class="btn btn-danger nav-btn"
-            >
-                <i class="bi bi-box-arrow-right me-1"></i>
-                Logout
-            </a>
-
-        </div>
-
+        <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">
+            <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
     </div>
-
 </nav>
-
-
-<!-- MAIN CONTENT -->
 
 <div class="page-wrapper">
 
-    <!-- HEADER -->
+    <div class="mb-4">
+        <h2 class="fw-bold">Application Status History</h2>
+        <p class="text-secondary">Track every update made to your job application.</p>
+    </div>
 
-    <div class="page-header fade-up">
+    <div class="history-card">
 
-        <div class="d-flex align-items-center">
-
-            <div class="header-icon">
-                <i class="bi bi-clock-history"></i>
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="rounded-3 p-3 bg-primary-subtle text-primary fs-3">
+                <i class="bi bi-briefcase-fill"></i>
             </div>
 
             <div>
-
-                <h1>Application Status History</h1>
-
-                <p>
-                    Track every update made to your job application.
-                </p>
-
+                <h4 class="job-title mb-1">{{ application.job.title }}</h4>
+                <div class="company-name">
+                    <i class="bi bi-building"></i>
+                    {{ application.job.company_name }}
+                </div>
             </div>
-
         </div>
+
+        <hr>
+
+        <div class="text-secondary small fw-bold mb-2">CURRENT APPLICATION STATUS</div>
+
+        <span class="status-badge
+            {% if application.status == 'applied' %}status-applied
+            {% elif application.status == 'shortlisted' %}status-shortlisted
+            {% elif application.status == 'selected' %}status-selected
+            {% elif application.status == 'rejected' %}status-rejected
+            {% endif %}">
+            {{ application.get_status_display }}
+        </span>
 
     </div>
 
+    <div class="history-card">
 
-    <!-- MESSAGES -->
+        <h5 class="fw-bold mb-4">
+            <i class="bi bi-clock-history text-primary me-2"></i>
+            Status Timeline
+        </h5>
 
-    {% if messages %}
+        {% if history %}
 
-        {% for message in messages %}
+            <div class="timeline">
 
-            <div class="alert alert-info alert-dismissible fade show mb-4">
+                {% for item in history %}
 
-                <i class="bi bi-info-circle-fill me-2"></i>
+                    <div class="timeline-item">
 
-                {{ message }}
-
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"
-                ></button>
-
-            </div>
-
-        {% endfor %}
-
-    {% endif %}
-
-
-    <!-- JOB DETAILS -->
-
-    <div class="job-card mb-4 fade-up">
-
-        <div class="card-body p-4">
-
-            <div class="d-flex align-items-center gap-3 mb-4">
-
-                <div class="job-icon">
-                    <i class="bi bi-briefcase-fill"></i>
-                </div>
-
-                <div>
-
-                    <h4 class="job-title">
-                        {{ application.job.title }}
-                    </h4>
-
-                    <div class="company-name">
-                        <i class="bi bi-building me-1"></i>
-                        {{ application.job.company_name }}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="current-status">
-
-                <div class="status-label mb-2">
-                    Current Application Status
-                </div>
-
-                {% if application.status == "applied" %}
-
-                    <span class="status-badge status-applied">
-                        <span class="status-dot"></span>
-                        Applied
-                    </span>
-
-                {% elif application.status == "shortlisted" %}
-
-                    <span class="status-badge status-shortlisted">
-                        <span class="status-dot"></span>
-                        Shortlisted
-                    </span>
-
-                {% elif application.status == "selected" %}
-
-                    <span class="status-badge status-selected">
-                        <span class="status-dot"></span>
-                        Selected
-                    </span>
-
-                {% elif application.status == "rejected" %}
-
-                    <span class="status-badge status-rejected">
-                        <span class="status-dot"></span>
-                        Rejected
-                    </span>
-
-                {% endif %}
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- HISTORY -->
-
-    <div class="history-card fade-up">
-
-        <div class="card-body p-4">
-
-            <h5 class="section-title">
-                <i class="bi bi-clock-history text-primary me-2"></i>
-                Status Timeline
-            </h5>
-
-
-            {% if history %}
-
-                <div class="timeline">
-
-                    {% for item in history %}
-
-                        <div class="timeline-item">
-
-                            <div class="timeline-dot"></div>
-
-                            <div class="timeline-content">
-
-                                <div class="timeline-date">
-
-                                    <i class="bi bi-calendar-event"></i>
-
-                                    {{ item.changed_at|date:"d M Y, h:i A" }}
-
-                                </div>
-
-
-                                <div class="status-change">
-
-                                    {% if item.old_status %}
-
-                                        <div>
-
-                                            <div class="status-label mb-1">
-                                                Previous Status
-                                            </div>
-
-                                            {% if item.old_status == "applied" %}
-
-                                                <span class="status-badge status-applied">
-                                                    Applied
-                                                </span>
-
-                                            {% elif item.old_status == "shortlisted" %}
-
-                                                <span class="status-badge status-shortlisted">
-                                                    Shortlisted
-                                                </span>
-
-                                            {% elif item.old_status == "selected" %}
-
-                                                <span class="status-badge status-selected">
-                                                    Selected
-                                                </span>
-
-                                            {% elif item.old_status == "rejected" %}
-
-                                                <span class="status-badge status-rejected">
-                                                    Rejected
-                                                </span>
-
-                                            {% endif %}
-
-                                        </div>
-
-                                        <i class="bi bi-arrow-right change-arrow"></i>
-
-                                    {% else %}
-
-                                        <i class="bi bi-arrow-right change-arrow"></i>
-
-                                    {% endif %}
-
-
-                                    <div>
-
-                                        <div class="status-label mb-1">
-                                            New Status
-                                        </div>
-
-                                        {% if item.new_status == "applied" %}
-
-                                            <span class="status-badge status-applied">
-                                                Applied
-                                            </span>
-
-                                        {% elif item.new_status == "shortlisted" %}
-
-                                            <span class="status-badge status-shortlisted">
-                                                Shortlisted
-                                            </span>
-
-                                        {% elif item.new_status == "selected" %}
-
-                                            <span class="status-badge status-selected">
-                                                Selected
-                                            </span>
-
-                                        {% elif item.new_status == "rejected" %}
-
-                                            <span class="status-badge status-rejected">
-                                                Rejected
-                                            </span>
-
-                                        {% endif %}
-
-                                    </div>
-
-                                </div>
-
-
-                                <!-- RECRUITER REMARKS -->
-
-                                {% if item.remarks %}
-
-                                    <div class="remarks-box">
-
-                                        <div class="remarks-title">
-
-                                            <i class="bi bi-chat-left-text-fill me-1"></i>
-                                            Remarks
-
-                                        </div>
-
-                                        <p class="remarks-text">
-                                            {{ item.remarks }}
-                                        </p>
-
-                                    </div>
-
+                        <div class="d-flex justify-content-between flex-wrap gap-2 mb-2">
+                            <span class="fw-bold text-dark">
+                                {% if item.old_status %}
+                                    {{ item.get_old_status_display }} →
+                                {% else %}
+                                    Application Submitted →
                                 {% endif %}
+                                {{ item.get_new_status_display }}
+                            </span>
 
-
-                                <!-- CHANGED BY -->
-
-                                <div class="changed-by">
-
-                                    <i class="bi bi-person-circle me-1"></i>
-
-                                    {% if item.changed_by %}
-
-                                        Updated by:
-
-                                        {% if item.changed_by.get_full_name %}
-
-                                            {{ item.changed_by.get_full_name }}
-
-                                        {% else %}
-
-                                            {{ item.changed_by.username }}
-
-                                        {% endif %}
-
-                                    {% else %}
-
-                                        Updated by: System
-
-                                    {% endif %}
-
-                                </div>
-
-                            </div>
-
+                            <span class="timeline-date">
+                                <i class="bi bi-calendar3"></i>
+                                {{ item.changed_at|date:"d M Y, h:i A" }}
+                            </span>
                         </div>
 
-                    {% endfor %}
+                        <div class="small text-secondary">
+                            <i class="bi bi-person-circle me-1"></i>
+                            Updated by:
 
-                </div>
+                            {% if item.changed_by %}
+                                {% if item.changed_by.get_full_name %}
+                                    {{ item.changed_by.get_full_name }}
+                                {% else %}
+                                    {{ item.changed_by.username }}
+                                {% endif %}
+                            {% else %}
+                                System
+                            {% endif %}
+                        </div>
 
+                        {% if item.remarks %}
+                            <div class="remarks">
+                                <strong>
+                                    <i class="bi bi-chat-left-text me-1"></i>
+                                    Remarks
+                                </strong>
+                                <p class="mb-0 mt-1">{{ item.remarks }}</p>
+                            </div>
+                        {% endif %}
 
-            {% else %}
-
-                <div class="empty-box">
-
-                    <div class="empty-icon">
-                        <i class="bi bi-clock-history"></i>
                     </div>
 
-                    <h4>No Status History Yet</h4>
+                {% endfor %}
 
-                    <p class="mt-2 mb-0">
-                        Your application status updates will appear here.
-                    </p>
+            </div>
 
-                </div>
+        {% else %}
 
-            {% endif %}
+            <div class="empty-box">
+                <i class="bi bi-clock-history fs-1"></i>
+                <h5 class="mt-3">No Status History Available</h5>
+                <p class="mb-0">Status updates will appear here.</p>
+            </div>
 
-        </div>
-
-    </div>
-
-
-    <!-- BACK BUTTON -->
-
-    <div class="mt-4">
-
-        <a
-            href="{% url 'my_applications' %}"
-            class="btn btn-outline-primary action-btn"
-        >
-            <i class="bi bi-arrow-left me-1"></i>
-            Back to My Applications
-        </a>
+        {% endif %}
 
     </div>
+
+    <a href="{% url 'my_applications' %}" class="btn btn-outline-primary action-btn">
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to My Applications
+    </a>
 
 </div>
 
-
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-></script>
-
 </body>
-
 </html>
